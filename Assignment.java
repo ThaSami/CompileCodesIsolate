@@ -84,7 +84,7 @@ public class Assignment {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db&useSSL=false", "root", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db?&useSSL=false", "root", "password");
             Statement stmt = con.createStatement();
             long hash = Objects.hashCode(readFile(args[0]));
             ResultSet resultSet = stmt.executeQuery("select * from codes where hash=" +"\""+String.valueOf(hash)+"\"");
