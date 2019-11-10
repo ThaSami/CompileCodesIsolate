@@ -83,7 +83,7 @@ public class Assignment {
 
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "password");
             Statement stmt = con.createStatement();
             long hash = Objects.hashCode(readFile(args[0]));
