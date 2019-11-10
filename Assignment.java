@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.sql.*;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Assignment {
 
@@ -96,7 +97,8 @@ public class Assignment {
 
             if (args[0].endsWith(".cpp")) {
                 Process p = Runtime.getRuntime().exec("g++ " + args[0] + " -o out");
-                Process p2 = Runtime.getRuntime().exec("./out");
+                TimeUnit.SECONDS.sleep(3);
+                Process p2 = Runtime.getRuntime().exec("sh -c ./out");
 
                 print(p, p2,stmt,hash);
             } else if (args[0].endsWith(".py")) {
