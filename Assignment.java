@@ -104,16 +104,16 @@ public class Assignment {
 
                 String compiler = args[0].endsWith(".cpp") ? "g++ " : "gcc ";
                 Process p = Runtime.getRuntime().exec(compiler + args[0] + " -o out");
-                TimeUnit.SECONDS.sleep(3); //this is needed since containers are too slow to generate the out file
+                TimeUnit.SECONDS.sleep(5); //this is needed since containers are too slow to generate the out file
                 Process p2 = Runtime.getRuntime().exec("sh -c ./out"); // run the file
                 print(p, p2,stmt,hash); //print the file (so many dublicates i know)
 
                 //ain't gonna explain this..
             }else if (args[0].endsWith(".java")) {
                 Process p = Runtime.getRuntime().exec("javac " + args[0]);
-                TimeUnit.SECONDS.sleep(3); //this is needed since containers are too slow to generate the out file
+                TimeUnit.SECONDS.sleep(5); //this is needed since containers are too slow to generate the out file
                 String str = args[0].replaceAll(".java", "");
-                Process p2 = Runtime.getRuntime().exec("sh -c java "+str); // run the file
+                Process p2 = Runtime.getRuntime().exec("java "+str); // run the file
                 print(p, p2,stmt,hash); //print the file (so many duplicates i know)
                 //ain't gonna explain this too..
             }
