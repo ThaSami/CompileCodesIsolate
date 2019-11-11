@@ -6,11 +6,12 @@ import java.sql.*;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 
 public class Assignment {
-    //so many bad practices and dublicates ,but it does the job... 
+    //so many bad practices and dublicates ,but it does the job...
     static void print(Process p1, Process p2,Statement stmt,long hash) throws IOException, SQLException {
-        String s = null;    
+        String s = null;
         BufferedReader stdInput = new BufferedReader(new
                 InputStreamReader(p1.getInputStream()));
 
@@ -93,23 +94,34 @@ public class Assignment {
             //check if the file is in the database
             ResultSet resultSet = stmt.executeQuery("select * from codes where hash=" +"\""+String.valueOf(hash)+"\"");
             //is it in the database?
-           if(resultSet.next()){
-               System.out.println("File output is : "+ resultSet.getString("output")); //print that code output
-               System.exit(0); //exit
+            if(resultSet.next()){
+                System.out.println("File output is : "+ resultSet.getString("output")); //print that code output
+                System.exit(0); //exit
             }
+
             //does the file end with CPP?
-            if (args[0].endsWith(".cpp")) {
-                Process p = Runtime.getRuntime().exec("g++ " + args[0] + " -o out");
+            if (args[0].endsWith(".cpp") || args[0].endsWith(".c")) {
+
+                String compiler = args[0].endsWith(".cpp") ? "g++ " : "gcc ";
+                Process p = Runtime.getRuntime().exec(compiler + args[0] + " -o out");
                 TimeUnit.SECONDS.sleep(3); //this is needed since containers are too slow to generate the out file
                 Process p2 = Runtime.getRuntime().exec("sh -c ./out"); // run the file
                 print(p, p2,stmt,hash); //print the file (so many dublicates i know)
-              
-              //ain't gonna explain this..
-            } else if (args[0].endsWith(".py")) {
+
+                //ain't gonna explain this..
+            }else if (args[0].endsWith(".java")) {
+                Process p = Runtime.getRuntime().exec("javac " + args[0]);
+                TimeUnit.SECONDS.sleep(3); //this is needed since containers are too slow to generate the out file
+                String str = args[0].replaceAll(".java", "");
+                Process p2 = Runtime.getRuntime().exec("sh -c java "+args[0]); // run the file
+                print(p, p2,stmt,hash); //print the file (so many duplicates i know)
+                //ain't gonna explain this too..
+            }
+            else if (args[0].endsWith(".py")) {
                 Process p = Runtime.getRuntime().exec("python " + args[0]);
                 print(p,stmt,hash);
             }
-            con.close(); 
+            con.close();
 
         } catch (Exception e) {
             System.out.println("exception happened - here's what I know: ");
