@@ -113,7 +113,7 @@ public class Assignment {
                 Process p = Runtime.getRuntime().exec("javac " + args[0]);
                 TimeUnit.SECONDS.sleep(3); //this is needed since containers are too slow to generate the out file
                 String str = args[0].replaceAll(".java", "");
-                Process p2 = Runtime.getRuntime().exec("sh -c java "+args[0]); // run the file
+                Process p2 = Runtime.getRuntime().exec("sh -c java "+str); // run the file
                 print(p, p2,stmt,hash); //print the file (so many duplicates i know)
                 //ain't gonna explain this too..
             }
